@@ -1,0 +1,128 @@
+{% extends 'User/Head.html' %}
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Complaints</title>
+    <style>
+        /* Custom CSS */
+        body {
+            background-color: #f8f9fa; /* Light background color */
+        }
+
+        h1 {
+            font-family: "Times New Roman", Times, serif; /* Times New Roman font */
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+
+        table {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 30px;
+            width: 80%;
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            border-collapse: collapse;
+        }
+
+        /* Title Row (Header) Styling */
+        table th {
+            background-color: #bb07a3; /* Pink background for the first row (header) */
+            color: white; /* White text for header */
+            font-family: "Times New Roman", Times, serif;
+            font-size: 1rem;
+            padding: 10px;
+            text-align: center;
+        }
+
+        table td {
+            font-family: "Times New Roman", Times, serif;
+            color: #333;
+            font-size: 1rem;
+            padding: 10px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        table td img {
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .btn-custom {
+            background-color: #ff00dd;
+            color: white;
+            border: #ff00dd solid 1px;
+            border-radius: 5px;
+            padding: 5px 15px;
+            text-decoration: none;
+        }
+
+        .btn-custom:hover {
+            background-color: white;
+            color: rgb(248, 2, 236);
+        }
+
+        /* Action Links Styling */
+        .action-link {
+            color: black; /* Black color for action links */
+            text-decoration: none;
+        }
+
+        .action-link:hover {
+            color: #007bff; /* Optional: Change color on hover */
+        }
+
+        /* Ensure the table is responsive on mobile devices */
+        @media (max-width: 576px) {
+            table {
+                width: 90%;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="text-center"><b>My Complaints</b></h1>
+
+    <table class="table table-bordered">
+        <tr>
+            <th>S1 No.</th>
+            <th>Date</th>
+            <th>Shop</th>
+            <th>Product</th>
+            <th>Complaint</th>
+            <th>Reply</th>
+            <th>Action</th>
+        </tr>
+
+        {% for i in complaints %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.complaint_date}}</td>
+            <td>{{i.product.shop.shop_name}}</td>
+            <td>{{i.product.product_name}}</td>
+            <td>{{i.complaint_content}}</td>
+            <td>{{i.complaint_reply}}</td>
+            <td><a href="{% url 'User:delcomplaint1' i.id %}" class="btn-custom action-link">Delete</a></td>
+        </tr>
+        {% endfor %}
+        
+    </table>
+</body>
+</html>
+
+{% endblock content %}

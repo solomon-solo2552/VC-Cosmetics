@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product View</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        body {
+            padding-top: 30px;
+            background-color: #f8f9fa;
+        }
+
+        .product-card {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            background: #fff;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .product-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .text-warning {
+            color: orange;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 class="text-center mb-4">Product View</h1>
+        
+        <!-- Filter Section -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <select class="form-control" name="sel_brand" id="sel_brand" onchange="SearchName()">
+                    <option value="">Select Brand</option>
+                    {% for i in brand %}
+                    <option value="{{ i.id }}">{{ i.brand_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6">
+                <select class="form-control" name="sel_category" id="sel_category" onchange="Search()">
+                    <option value="">Select Category</option>
+                </select>
+            </div>
+            <!-- Centered Search Input -->
+            <div class="col-12 text-center mt-3">
+                <input type="text" class="form-control w-50 mx-auto" name="txt_name" id="txt_name" onkeyup="SearchName()" placeholder="Search Product">
+            </div>
+        </div>
+        
+
+        <!-- Product List -->
+        <div id="result">
+            <div class="row" id="product-list">
+                {% for i, j in product %}
+                <div class="col-md-4 mb-4">
+                    <div class="product-card p-3">
+                        <img src="{{ i.product_photo.url }}" alt="{{ i.product_name }}" class="img-fluid">
+                        <h5 class="mt-2">{{ i.product_name }}</h5>
+                        <p><strong>Shop:</strong> {{ i.shop.shop_name }}</p>
+                        <p><strong>Brand:</strong> {{ i.category.brand.brand_name }}</p>
+                        <p><strong>Category:</strong> {{ i.category.category_name }}</p>
+                        <p><strong>Price:</strong> ₹{{ i.product_price }}</p>
+                        <p>{{ i.product_details }}</p>
+                        
+                        <!-- Rating Stars -->
+                        <div>
+                            {% for k in ar %}
+                            {% if k <= j %} 
+                                <i class="fa-solid fa-star text-warning"></i>
+                            {% else %}
+                                <i class="fa-solid fa-star text-muted"></i>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        
+                        <!-- Add to Cart Button -->
+                        <div class="mt-3">
+                            {% if i.total_stock == 0 or i.total_stock == None %}
+                            <span class="text-danger">Out Of Stock</span>
+                            {% else %}
+                            <a href="{% url 'User:Addcart' i.id %}" class="btn btn-primary">Add To Cart</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {% if msg %}
+    <script>
+        alert("{{ msg }}");
+        window.location = "{% url 'User:viewproduct' %}";
+    </script>
+    {% endif %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+    //    function Search() {
+        
+       
+    //     var cid=document.getElementById("sel_category").value;
+    //     console.log(cid);
+
+        
+    //     var bid=document.getElementById("sel_brand").value;
+    //     console.log(bid);
+
+       
+        
+    //     var ur = "{% url 'User:ajaxsearch' %}"
+    //     $.ajax({
+    //         url: ur,
+    //         data: { cid: cid, bid: bid },
+    //         success: function (data) {
+    //             $("#result").html(data);
+    //         },
+    //     });
+    // }
+    
+    function SearchName() {
+    var name = document.getElementById("txt_name").value.trim();
+
+    $.ajax({
+        url: "{% url 'User:ajaxsearch' %}",
+        data: { name: name },
+        success: function (data) {
+            $("#result").html(data);  // Inject the result into this div
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX error:", error);
+        }
+    });
+}
+
+
+
+    $("#sel_brand").change(function () {
+        var bid = $(this).val();
+        var ur = "{% url 'User:ajaxcategory' %}"
+        $.ajax({
+            url: ur,
+            data: { bid: bid, },
+            success: function (data) {
+                $("#sel_category").html(data);
+            },
+        });
+    });
+    $("#sel_category").change(function () {
+        var cid = $(this).val();
+        var ur = "{% url 'User:ajaxsearch' %}"
+        $.ajax({
+            url: ur,
+            data: { cid: cid, },
+            success: function (data) {
+                $("#result").html(data);
+            },
+        });
+    });
+    </script>
+
+</body>
+
+</html>
+
+
