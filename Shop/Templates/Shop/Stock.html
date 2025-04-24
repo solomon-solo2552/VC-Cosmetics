@@ -1,0 +1,187 @@
+{% extends 'Shop/Head.html' %}
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock</title>
+    <style>
+        /* Custom CSS */
+        body {
+            background-color: #f8f9fa; /* Light background color */
+        }
+
+        h1 {
+            font-family: "Times New Roman", Times, serif; /* Times New Roman font */
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+
+        /* Table Styling for the Stock Management form */
+        table {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 30px;
+            width: 50%;
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            border-collapse: collapse;
+        }
+
+        table td {
+            font-family: "Times New Roman", Times, serif; /* Times New Roman font */
+            color: #333;
+            font-size: 1rem;
+            padding: 10px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        input[type="text"], input[type="file"], select, textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .btn-custom {
+            font-family: 'Times New Roman', Times, serif; /* Times New Roman font */
+            background-color: #ff00dd;
+            color: rgb(255, 255, 255);
+            border: #ff00dd solid 1px;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 48%; /* Adjust width for equal spacing */
+            margin-top: 10px;
+        }
+
+        .btn-custom:hover {
+            font-family: 'Times New Roman', Times, serif; /* Times New Roman font */
+            background-color: white;
+            color: #ff00dd; /* Pink color for text on hover */
+        }
+
+        /* Styling for the Product Stock Table */
+        .stock-table th {
+            background-color: #bb07a3;
+            color: white;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding: 12px;
+        }
+
+        .stock-table td {
+            font-family: 'Times New Roman', Times, serif;
+            color: #333;
+            font-size: 1rem;
+            padding: 12px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .stock-table tr:nth-child(even) {
+            background-color: #f4f4f4; /* Light gray for even rows */
+        }
+
+        .stock-table tr:nth-child(odd) {
+            background-color: #ffffff; /* White for odd rows */
+        }
+
+        .stock-table, .stock-table th, .stock-table td {
+            border: 1px solid #ddd; /* Soft gray border */
+        }
+
+        /* Hover effect for rows */
+        .stock-table tr:hover {
+            background-color: #f1f1f1; /* Light hover effect */
+        }
+
+        /* Link styling */
+        a {
+            color: rgb(255, 255, 255); /* Original color */
+            text-decoration: none; /* Remove underline */
+            transition: color 0.3s ease; /* Smooth color transition */
+        }
+
+        a:hover {
+            color: #ff00dd; /* Pink color when hovering */
+            text-decoration: none; /* Remove underline */
+        }
+
+        /* Ensure the table is responsive on mobile devices */
+        @media (max-width: 576px) {
+            table {
+                width: 90%;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .btn-custom {
+                width: 80%;
+                margin-top: 10px;
+            }
+
+            .stock-table td, .stock-table th {
+                font-size: 0.9rem;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <form method="post">
+        {% csrf_token %}
+        <h1 align="center"><b>Stock Management</b></h1>
+        <table width="200" border="1" align="center">
+            <tr>
+                <td>Stock</td>
+                <td> <label for="txt_stock"></label>
+                    <input type="text" required name="txt_stock" id="txt_stock" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <div align="center">
+                        <input type="Submit" name="btn_sub" id="btn_sub" class="btn-custom" value="Submit" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <table class="stock-table" align="center">
+            <thead>
+                <tr>
+                    <th>S1 No</th>
+                    <th>Product</th>
+                    <th>Stock</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in prod %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.product.product_name}}</td>
+                    <td>{{i.stock_quantity}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    
+</body>
+</html>
+
+{% endblock content %}
