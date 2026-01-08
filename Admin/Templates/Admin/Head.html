@@ -1,0 +1,236 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Corona Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{% static 'Admin/template/assets/vendors/mdi/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Admin/template/assets/vendors/css/vendor.bundle.base.css' %}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{% static 'Admin/template/assets/vendors/jvectormap/jquery-jvectormap.css' %}">
+    <link rel="stylesheet" href="{% static 'Admin/template/assets/vendors/flag-icon-css/css/flag-icon.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Admin/template/assets/vendors/owl-carousel-2/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Admin/template/assets/vendors/owl-carousel-2/owl.theme.default.min.css' %}">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="{% static 'Admin/template/assets/css/style.css' %}">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="{% static 'Admin/template/assets/images/favicon.png' %}" />
+  </head>
+  <body onload="getName()">
+    <div class="container-scroller">
+      <!-- partial:partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
+          <!-- <a class="sidebar-brand brand-logo" href="index.html"><img src="{% static 'Admin/template/assets/images/logo.svg' %}" alt="logo" /></a>
+          <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="{% static 'Admin/template/assets/images/logo-mini.svg' %}" alt="logo" /></a> -->
+        </div>
+        <ul class="nav">
+          <li class="nav-item profile">
+            <div class="profile-desc">
+              <div class="profile-pic">
+                <div class="count-indicator">
+                  <img class="img-xs rounded-circle " src="{% static 'Admin/template/assets/images/faces/face15.jpg' %}" alt="">
+                  <span class="count bg-success"></span>
+                </div>
+                <div class="profile-name">
+                  <h5 class="mb-0 font-weight-normal" id="admin-name">{{name}}</h5>
+                  <span>Main Admin</span>
+                </div>
+              </div>
+              
+            </div>
+          </li>
+          <li class="nav-item nav-category">
+            <span class="nav-link">Navigation</span>
+          </li>
+          <li class="nav-item menu-items">
+            <a class="nav-link" href="{% url 'Admin:homepage' %}">
+              <span class="menu-icon">
+                <i class="mdi mdi-home"></i>
+              </span>
+              <span class="menu-title">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item menu-items">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+              <span class="menu-icon">
+                <i class="mdi mdi-map-marker-outline"></i>
+              </span>
+              <span class="menu-title">Locations</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="{% url 'Admin:district' %}">District</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{% url 'Admin:place' %}">Place</a></li>
+                <!-- <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li> -->
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item menu-items">
+            <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+              <span class="menu-icon">
+                <i class="mdi mdi-package-variant-closed"></i>
+              </span>
+              <span class="menu-title">Product</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="auth">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="{% url 'Admin:category' %}"> Category</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{% url 'Admin:brand' %}"> Brand </a></li>
+                <!-- <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500 </a></li>
+                <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Login </a></li>
+                <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Register </a></li> -->
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item menu-items">
+            <a class="nav-link" href="{% url 'Admin:newshop' %}">
+              <span class="menu-icon">
+                <i class="mdi mdi-account-check"></i>
+              </span>
+              <span class="menu-title">New Shops</span>
+            </a>
+          </li>
+          <li class="nav-item menu-items">
+            <a class="nav-link" href="{% url 'Admin:ViewComplaints' %}">
+              <span class="menu-icon">
+                <i class="mdi mdi-format-list-bulleted"></i>
+              </span>
+              <span class="menu-title">View Complaints</span>
+            </a>
+          </li>
+          <li class="nav-item menu-items">
+            <a class="nav-link" href="{% url 'Admin:RepliedComplaints' %}">
+              <span class="menu-icon">
+                <i class="mdi mdi-playlist-edit"></i>
+              </span>
+              <span class="menu-title">Replied Complaints</span>
+            </a>
+          </li>
+          <li class="nav-item menu-items">
+            <a class="nav-link" href="{% url 'Admin:logout' %}">
+              <span class="menu-icon">
+                <i class="mdi mdi-logout"></i>
+              </span>
+              <span class="menu-title">Logout</span>
+            </a>
+          </li>
+          <!-- <li class="nav-item menu-items">
+            <a class="nav-link" href="http://www.bootstrapdash.com/demo/corona-free/jquery/documentation/documentation.html">
+              <span class="menu-icon">
+                <i class="mdi mdi-file-document-box"></i>
+              </span>
+              <span class="menu-title">Documentation</span>
+            </a>
+          </li> -->
+        </ul>
+      </nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_navbar.html -->
+        <nav class="navbar p-0 fixed-top d-flex flex-row">
+          <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
+            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{% static 'Admin/template/assets/images/logo-mini.svg' %}" alt="logo" /></a>
+          </div>
+          <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
+            <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+              <span class="mdi mdi-menu"></span>
+            </button>
+            <!-- <ul class="navbar-nav w-100">
+              <li class="nav-item w-100">
+                <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
+                  <input type="text" class="form-control" placeholder="Search products">
+                </form>
+              </li>
+            </ul> -->
+            <ul class="navbar-nav navbar-nav-right">
+              
+              <li class="nav-item dropdown">
+                <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
+                  <div class="navbar-profile">
+                    <img class="img-xs rounded-circle" src="{% static 'Admin/template/assets/images/faces/face15.jpg' %}" alt="">
+                    <p class="mb-0 d-none d-sm-block navbar-profile-name" id="admin-pro-name">{{name}}</p>
+                    <!-- <i class="mdi mdi-menu-down d-none d-sm-block"></i> -->
+                  </div>
+                </a> 
+                
+              </li>
+            </ul>
+            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+              <span class="mdi mdi-format-line-spacing"></span>
+            </button>
+          </div>
+        </nav> 
+
+        
+        <div class="main-panel">
+          <!-- <div class="content-wrapper"> -->
+
+            <br><br><br><br>
+
+        {% block content %}
+
+        {% endblock content %}
+
+        <br><br><br><br>
+
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+        <!-- <footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+              <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com 2020</span>
+              <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin templates</a> from Bootstrapdash.com</span>
+            </div>
+          </footer> -->
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="{% static 'Admin/template/assets/vendors/js/vendor.bundle.base.js' %}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="{% static 'Admin/template/assets/vendors/chart.js/Chart.min.js' %}"></script>
+    <script src="{% static 'Admin/template/assets/vendors/progressbar.js/progressbar.min.js' %}"></script>
+    <script src="{% static 'Admin/template/assets/vendors/jvectormap/jquery-jvectormap.min.js' %}"></script>
+    <script src="{% static 'Admin/template/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js' %}"></script>
+    <script src="{% static 'Admin/template/assets/vendors/owl-carousel-2/owl.carousel.min.js' %}"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="{% static 'Admin/template/assets/js/off-canvas.js' %}"></script>
+    <script src="{% static 'Admin/template/assets/js/hoverable-collapse.js' %}"></script>
+    <script src="{% static 'Admin/template/assets/js/misc.js' %}"></script>
+    <script src="{% static 'Admin/template/assets/js/settings.js' %}"></script>
+    <script src="{% static 'Admin/template/assets/js/todolist.js' %}"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="{% static 'Admin/template/assets/js/dashboard.js' %}"></script>
+    <!-- End custom js for this page -->
+  </body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    function getName() {
+        var ur = "{% url 'Admin:admindetails' %}"
+        $.ajax({
+            url: ur,
+            success: function (data) {
+              document.getElementById("admin-name").innerHTML = data.name.admin_name  
+              document.getElementById("admin-pro-name").innerHTML = data.name.admin_name  
+            },
+        });
+    }
+</script>

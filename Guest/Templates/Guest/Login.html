@@ -1,0 +1,117 @@
+{% extends 'Guest/Head.html' %}
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Add Bootstrap CSS -->
+    <style>
+        /* Custom CSS for the form */
+
+        body {
+            background-image: url("{%static 'Main/images/top-view-frame-with-mascara-copy-space_23-2148301887.avif' %}"); /* Replace with your image path */
+            background-size: cover; /* Cover the entire page */
+            background-position: center; /* Center the image */
+            background-attachment: fixed; /* Make the background fixed while scrolling */
+            background-repeat: no-repeat; /* Do not repeat the background image */
+        }
+
+        h1 {
+            font-family: "Times New Roman", Times, serif; /* Times New Roman font */
+            color: #333;
+            font-size: 2.5rem; /* Increased font size */
+            font-weight: 600; /* Bold font weight */
+            text-transform: uppercase; /* Make the text uppercase */
+            letter-spacing: 2px; /* Add some space between letters */
+            margin-bottom: 30px; /* Space below the heading */
+            text-align: center; /* Center the heading */
+           
+        }
+       
+        table {
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        td {
+            font-family: "Times New Roman", Times, serif; /* Times New Roman font */
+            color: #333;
+            padding: 15px;
+            text-align: left;
+            font-size: 1rem;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1.2rem;
+            background-color: #ff00f2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #ce01b2;
+        }
+
+        /* Center the form */
+        .container-m {
+            margin-left: 100;
+            margin-right: 100;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-m">
+        <form method="post">
+            {% csrf_token %}
+            <h1 class="text-center">Login</h1>
+            <table class="table table-bordered" align="center" style="width: 500px;">
+                <tr>
+                    <td>Email</td>
+                    <td>
+                        <input type="text" required name="txt_email" id="txt_email" class="form-control"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td>
+                        <input type="password" required name="txt_password" id="txt_password" class="form-control"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="text-center">
+                        <input type="submit" name="btn_login" id="btn_login" value="Login" class="btn btn-primary"/>
+                        <br>
+                        
+                        <a href="{% url 'Guest:userreg' %}">New User</a> || <a href="{% url 'Guest:shopreg' %}">New Shop</a>
+                        <br>
+                        <a href="{% url 'Guest:forgot_password' %}">Forgot Passwoord</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+
+</body>
+</html>
+
+
+{% endblock content %}

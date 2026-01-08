@@ -1,0 +1,185 @@
+{% extends 'Guest/Head.html' %}
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <style>
+        /* Custom CSS for the form */
+
+        /* Body background image */
+        body {
+            background-image: url("{%static 'Main/images/top-view-frame-with-mascara-copy-space_23-2148301887.avif' %}"); /* Replace with your image path */
+            background-size: cover; /* Cover the entire page */
+            background-position: center; /* Center the image */
+            background-attachment: fixed; /* Make the background fixed while scrolling */
+            background-repeat: no-repeat; /* Do not repeat the background image */
+        }
+
+        h1 {
+            font-family: "Times New Roman", Times, serif; /* Times New Roman font */
+            color: #333;
+            font-size: 2.5rem; /* Increased font size */
+            font-weight: 600; /* Bold font weight */
+            text-transform: uppercase; /* Make the text uppercase */
+            letter-spacing: 2px; /* Add some space between letters */
+            margin-bottom: 30px; /* Space below the heading */
+            text-align: center; /* Center the heading */
+        }
+
+        table {
+            border-collapse: collapse;
+            background-color: rgba(255, 255, 255, 0); /* Make the background transparent */
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 90%; /* Make the table width responsive */
+            max-width: 480px; /* Set maximum width to 480px for smaller table */
+            margin: 0 auto; /* Center the table */
+            height: auto; /* Ensure the height adjusts automatically */
+        }
+
+        td {
+            font-family: "Times New Roman", Times, serif; /* Times New Roman font */
+            color: #333;
+            padding: 12px; /* Reduced padding for more compact design */
+            text-align: left;
+            font-size: 0.9rem; /* Smaller font size for better fit */
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="file"],
+        select {
+            width: 100%;
+            padding: 8px; /* Reduced padding for more compact design */
+            font-size: 0.9rem; /* Smaller font size */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1.1rem; /* Adjusted font size */
+            background-color: #ff00f2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: rgba(255, 255, 255, 0); /* Transparent background on hover */
+            color: #ce01b2;
+            border: #ce01b2 1px solid;
+        }
+
+        .container-m {
+            margin-left: 10%; /* Adjusted margins for smaller screens */
+            margin-right: 10%;
+            padding-bottom: 20px; /* Additional padding to prevent overflow */
+        }
+    </style>
+</head>
+<body>
+    <div class="container-m">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h1 align="center">User Registration</h1>
+            <table width="200" border="1" align="center">
+                <tr>
+                    <td>Name</td>
+                    <td> 
+                        <label for="txt_name"></label>
+                        <input type="text" required name="txt_name" id="txt_name" title="Name Allows Only Alphabets,Spaces and First Letter Must Be Capital Letter" pattern="^[A-Z]+[a-zA-Z ]*$"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td> 
+                        <label for="txt_email"></label>
+                        <input type="email" required name="txt_email" id="txt_email"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td> 
+                        <label for="txt_password"></label>
+                        <input type="password" required name="txt_password" id="txt_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Address</td>
+                    <td> 
+                        <label for="txt_address"></label>
+                        <textarea name="txt_address" id="txt_address" cols="45" rows="3" required></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Contact</td>
+                    <td> 
+                        <label for="txt_contact"></label>
+                        <input type="text" required name="txt_contact" id="txt_contact" pattern="[7-9]{1}[0-9]{9}" 
+                        title="Phone number with 7-9 and remaing 9 digit with 0-9"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Photo</td>
+                    <td> 
+                        <label for="file_photo"></label>
+                        <input type="file" required name="file_photo" id="file_photo"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>District</td>
+                    <td> 
+                        <label for="txt_district"></label>
+                        <select name="sel_district" id="sel_district" required>
+                            <option value="disabled select">--SELECT--</option>
+                            {% for i in dis %}
+                                <option value="{{i.id}}">{{i.district_name}}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Place</td>
+                    <td> 
+                        <label for="txt_place"></label>
+                        <select name="sel_place" id="sel_place" required>
+                            <option value="disabled select">--SELECT--</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <div align="center">
+                            <input type="Submit" name="btn_sub" id="btn_sub" value="Submit" />
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $("#sel_district").change(function () {
+            var did = $(this).val();
+            var ur = "{% url 'Guest:ajaxplace' %}"
+            $.ajax({
+                url: ur,
+                data: { did: did, },
+                success: function (data) {
+                    $("#sel_place").html(data);
+                },
+            });
+        });
+    </script>
+</body>
+</html>
+
+{% endblock content %}

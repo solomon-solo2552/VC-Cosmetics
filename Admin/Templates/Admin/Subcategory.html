@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Subcategory</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <h1 align="center">Subcategory</h1>
+        <table width="200" border="1" align="center">
+            <tr>
+                <td>Category</td>
+                <td> <label for="txt_category"></label>
+                <select name="sel_category" id="sel_category">
+                    <option value="">--SELECT--</option>
+                    {% for i in cate %}
+                    <option 
+                    {% if  edit.category_id == i.id %}
+                    selected
+                    {% endif %}
+                    value="{{i.id}}">{{i.category_name}}</option>
+                    {% endfor %}
+                </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Subcategory</td>
+                <td> <label for="txt_subcategory"></label>
+                <input type="text" required name="txt_subcategory" id="txt_subcategory" value="{{edit.subcategory_name}}"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><div align="center">
+                    <input type="Submit" name="btn_sub" id="btn_sub" value="Submit" />
+                </div></td>
+            </tr>
+        </table>
+        <br>
+        <table border="1" align="center">
+            <tr>
+                <td>S1 No</td>
+                <td>Category</td>
+                <td>Subcategory</td>
+                <td>Action</td>
+            </tr>
+            {% for i in subcat %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.category.category_name}}</td>
+                <td>{{i.subcategory_name}}</td>
+                <td><a href="{% url 'Admin:delsubcategory' i.id %}">Delete</a></td>
+                <td><a href="{% url 'Admin:editsubcategory' i.id %}">Edit</a></td>
+            </tr>
+            {%endfor%}
+        </table>
+    </form>
+</body>
+</html>

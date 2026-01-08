@@ -1,0 +1,56 @@
+{% extends 'User/Head.html' %}
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaints</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <h1 align="center">Complaints</h1>
+        <table width="200" border="1" align="center">
+            <tr>
+                <td>Content</td>
+                <td> <label for="txt_content"></label>
+                <input type="text" required name="txt_content" id="txt_content" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><div align="center">
+                    <input type="Submit" name="btn_sub" id="btn_sub" value="Submit" />
+                </div></td>
+            </tr>
+        </table>
+        <br>
+        <table border="1" align="center">
+            <tr>
+                <td>Sl No.</td>
+                <td>Date</td>
+                <td>Shop</td>
+                <td>Product</td>
+                <td>Complaint</td>
+                <td>Reply</td>
+                <td>Action</td>
+            </tr>
+            {% for i in complaints %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.complaint_date}}</td>
+                <td>{{i.product.shop.shop_name}}</td>
+                <td>{{i.product.product_name}}</td>
+                <td>{{i.complaint_content}}</td>
+                <td>{{i.complaint_reply}}</td>
+                <td><a href="{% url 'User:delcomplaint' i.id %}">Delete</a></a>
+            </tr>
+            {% endfor %}
+        </table>
+    </form>
+</body>
+</html>
+
+{% endblock content %}

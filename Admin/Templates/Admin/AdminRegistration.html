@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Registration</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <h1 align="center">Admin Registration</h1>
+        <table width="200" border="1" align="center">
+            <tr>
+                <td>Name</td>
+                <td> <label for="txt_name"></label>
+                <input type="text" required name="txt_name" id="txt_name"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td> <label for="txt_email"></label>
+                <input type="text" required name="txt_email" id="txt_email"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td> <label for="txt_pass"></label>
+                <input type="text" required name="txt_pass" id="txt_pass"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><div align="center">
+                    <input type="Submit" name="btn_sub" id="btn_sub" value="Submit" />
+                </div></td>
+            </tr>
+        </table>
+       
+    </form>
+    
+</body>
+</html>

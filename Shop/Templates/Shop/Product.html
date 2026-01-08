@@ -1,0 +1,259 @@
+{% extends 'Shop/Head.html' %}
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management</title>
+
+    <style>
+        /* Custom CSS */
+        body {
+            background-color: #f8f9fa; /* Light background color */
+        }
+
+        h1 {
+            font-family: "Times New Roman", Times, serif; /* Times New Roman font */
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+
+        .product-table {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 30px;
+            width: 50%; /* Adjust width */
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .product-table td {
+            font-family: "Times New Roman", Times, serif; /* Times New Roman font */
+            color: #333;
+            font-size: 1rem;
+            padding: 10px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        input[type="text"], input[type="file"], select, textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .btn-custom {
+            font-family: 'Times New Roman', Times, serif; /* Times New Roman font */
+            background-color: #ff00dd;
+            color: rgb(255, 255, 255);
+            border: #ff00dd solid 1px;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 48%; /* Adjust width for equal spacing */
+            margin-top: 10px;
+        }
+
+        .btn-custom:hover {
+            font-family: 'Times New Roman', Times, serif; /* Times New Roman font */
+            background-color: white;
+            color: #ff00dd; /* Pink color for text on hover */
+        }
+
+       /* First row of second table with pink background */
+       .product-list-table th {
+            background-color: #bb07a3;
+            color: white;
+            font-family: 'Times New Roman', Times, serif; /* Change font */
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding: 12px;
+        }
+
+        .product-list-table td {
+            font-family: 'Times New Roman', Times, serif; /* Change font */
+            color: #333;
+            font-size: 1rem;
+            padding: 12px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .product-list-table tr:nth-child(even) {
+            background-color: #f4f4f4; /* Light gray for even rows */
+        }
+
+        .product-list-table tr:nth-child(odd) {
+            background-color: #ffffff; /* White for odd rows */
+        }
+
+        /* Table borders */
+        .product-list-table, .product-list-table th, .product-list-table td {
+            border: 1px solid #ddd; /* Soft gray border */
+        }
+
+        /* Hover effect for rows */
+        .product-list-table tr:hover {
+            background-color: #f1f1f1; /* Light hover effect */
+        }
+
+       /* Style the link inside the button */
+a.btn-link {
+    color: white; /* Set text color to white */
+    text-decoration: none; /* Remove underline */
+}
+
+/* Hover effect for the link */
+a.btn-link:hover {
+    color: #ff00dd; /* Pink text color on hover */
+    text-decoration: none; /* Remove underline */
+}
+
+        /* Ensure the table is responsive on mobile devices */
+        @media (max-width: 576px) {
+            .product-table {
+                width: 90%;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .btn-custom {
+                width: 80%;
+                margin-top: 10px;
+            }
+
+            /* Adjust for better spacing on mobile */
+            .product-list-table td, .product-list-table th {
+                font-size: 0.9rem;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h1 align="center"><b>Product Management</b></h1>
+        <table class="product-table table table-bordered">
+            <tr>
+                <td>Name</td>
+                <td>
+                    <input type="text" required name="txt_name" id="txt_name"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Details</td>
+                <td>
+                    <textarea name="txt_details" id="txt_details" cols="45" rows="3"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>Photo</td>
+                <td>
+                    <input type="file" required name="file_photo" id="file_photo"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Price</td>
+                <td>
+                    <input type="text" required name="txt_price" id="txt_price"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Brand</td>
+                <td>
+                    <select name="sel_brand" id="sel_brand">
+                        <option value="">--SELECT--</option>
+                        {% for i in bnd %}
+                        <option value="{{i.id}}">{{i.brand_name}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Category</td>
+                <td>
+                    <select name="sel_category" id="sel_category">
+                        <option value="">--SELECT--</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <div align="center">
+                        <input type="Submit" name="btn_sub" id="btn_sub" class="btn-custom" value="Submit" />
+                        <input type="Reset" name="btn_cancel" id="btn_cancel" class="btn-custom" value="Cancel" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <table class="product-list-table table table-bordered" align="center">
+            <thead>
+                <tr>
+                    <th>S1 No</th>
+                    <th>Product</th>
+                    <th>Details</th>
+                    <th>Price</th>
+                    <th>Photo</th>
+                    <th>Brand</th>
+                    <th>Category</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in prod %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ i.product_name }}</td>
+                    <td>{{ i.product_details }}</td>
+                    <td>{{ i.product_price }}</td>
+                    <td><img src="{{ i.product_photo.url }}" width="100" height="100"></td>
+                    <td>{{ i.category.brand.brand_name }}</td>
+                    <td>{{ i.category.category_name }}</td>
+                    <td>
+                        <button class="btn-custom">
+                            <a href="{% url 'Shop:delproduct' i.id %}" class="btn-link">Delete</a>
+                        </button>
+                        
+                        <button class="btn-custom">
+                            <a href="{% url 'Shop:addstock' i.id %}" class="btn-link" >Stock</a>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $("#sel_brand").change(function () {
+            var bid = $(this).val();
+            var ur = "{% url 'Shop:ajaxcategory' %}"
+            $.ajax({
+                url: ur,
+                data: { bid: bid, },
+                success: function (data) {
+                    $("#sel_category").html(data);
+                },
+            });
+        });
+    </script>
+</body>
+</html>
+
+{% endblock content %}

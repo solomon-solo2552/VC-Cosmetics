@@ -1,0 +1,150 @@
+{% extends 'Shop/Head.html' %}
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Profile</title>
+    <style>
+        /* Custom CSS */
+        body {
+            background-color: #f8f9fa; /* Light background color */
+        }
+
+        h1 {
+            font-family: "Times New Roman", Times, serif; /* Times New Roman font */
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+
+        .profile-table {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 30px;
+            width: 30%;
+            max-width: 100%; /* Reduced table width */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .profile-table td {
+            font-family: "Times New Roman", Times, serif; /* Times New Roman font */
+            color: #333;
+            font-size: 1rem;
+            padding: 10px;
+            text-align: center; /* Aligns the text horizontally in the center */
+            vertical-align: middle; /* Aligns the text vertically in the center */
+        }
+
+        .profile-table img {
+            border-radius: 50%; /* Makes the image circular */
+            border: 3px solid #ff00dd; /* Adds a border with a pink color */
+            margin-bottom: 15px;
+            width: 100px; /* Increased image size */
+            height: 100px; /* Increased image size */
+            object-fit: contain; /* Ensures the image fits within the circle */
+        }
+
+        .profile-btn {
+            width: 48%;
+            margin-top: 10px;
+        }
+
+        .btn-custom {
+            background-color: #ff00dd;
+            color: white;
+            border: #ff00dd solid 1px;
+            border-radius: 5px;
+            padding: 5px 15px;
+            text-decoration: none;
+        }
+
+        .btn-custom:hover {
+            background-color: white;
+            color: rgb(248, 2, 236);
+        }
+
+        .btn-link {
+            background-color: transparent;
+            color: #007bff;
+            text-decoration: underline;
+        }
+
+        .btn-link:hover {
+            color: #0056b3;
+        }
+
+        /* Ensure the table is responsive on mobile devices */
+        @media (max-width: 576px) {
+            .profile-table {
+                width: 90%;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .profile-btn {
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="container">
+            <h1 class="text-center"><b>My Profile</b></h1>
+            <table class="profile-table table table-bordered">
+                <tr>
+                    <td align="center" colspan="2">
+                        <img src="{{shop.shop_logo.url}}" width="80px" height="80px" alt="Shop Logo">
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Name</strong></td>
+                    <td>{{shop.shop_name}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Email</strong></td>
+                    <td>{{shop.shop_email}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Contact</strong></td>
+                    <td>{{shop.shop_contact}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Address</strong></td>
+                    <td>{{shop.shop_address}}</td>
+                </tr>
+                <tr>
+                    <td><strong>District</strong></td>
+                    <td>{{shop.place.district.district_name}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Place</strong></td>
+                    <td>{{shop.place.place_name}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="text-center">
+                        <!-- Links turned into buttons -->
+                        <a href="{% url 'Shop:editprofile' %}" class="btn btn-custom profile-btn">Edit Profile</a>
+                        <a href="{% url 'Shop:changepassword' %}" class="btn btn-custom profile-btn">Change Password</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+
+</body>
+</html>
+
+{% endblock content %}

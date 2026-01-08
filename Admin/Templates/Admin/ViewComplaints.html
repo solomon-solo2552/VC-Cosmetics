@@ -1,0 +1,98 @@
+{% extends 'Admin/Head.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Complaints</title>
+
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        table {
+            border-collapse: collapse;
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            width: 80%;
+        }
+
+        table[border="1"] {
+            border: none;
+        }
+
+        table td, table th {
+            padding: 12px;
+            border: 1px solid #333;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        table tr:first-child {
+            background-color: #333;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        a {
+            color: #90caf9;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        a:hover {
+            color: #64b5f6;
+            text-decoration: underline;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <h1>View Complaints</h1>
+        <table border="1">
+            <tr>
+                <td>Sl No.</td>
+                <td>User</td>
+                <td>Product</td>
+                <td>Complaint</td>
+                <td>Action</td>
+            </tr>
+            {% for i in comp %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.user.user_name}}</td>
+                <td>{{i.product.product_name}}</td>
+                <td>{{i.complaint_content}}</td>
+                <td><a href="{% url 'Admin:reply' i.id %}">Reply</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </form>
+</body>
+</html>
+
+{% endblock content %}

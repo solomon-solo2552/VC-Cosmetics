@@ -1,0 +1,190 @@
+{% extends 'Admin/Head.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Verification</title>
+
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        form {
+            padding: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        table[border="1"] {
+            border: none;
+        }
+
+        table td {
+            padding: 12px;
+            border: 1px solid #333;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        table tr:first-child {
+            background-color: #333;
+        }
+
+        img {
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: white;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        a {
+            text-decoration: none;
+            color: #90caf9;
+            margin: 0 5px;
+            font-weight: 500;
+        }
+
+        a:hover {
+            color: #64b5f6;
+            text-decoration: underline;
+        }
+
+        br {
+            display: block;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h1>Shop Verification</h1>
+        <table width="100%" border="1" align="center">
+            <tr>
+                <td>S1 No</td>
+                <td>Name</td>
+                <td>Email</td>
+                <td>Contact</td>
+                <td>Address</td>
+                <td>District</td>
+                <td>Place</td>
+                <td>Logo</td>
+                <td>Proof</td>
+                <td>Action</td>
+            </tr>
+            {% for i in shopn %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.shop_name}}</td>
+                <td>{{i.shop_email}}</td>
+                <td>{{i.shop_contact}}</td>
+                <td>{{i.shop_address}}</td>
+                <td>{{i.place.district.district_name}}</td>
+                <td>{{i.place.place_name}}</td>
+                <td><img src="{{i.shop_logo.url}}" width="100" height="100"></td>
+                <td><img src="{{i.shop_proof.url}}" width="100" height="100"></td>
+                <td>
+                    <a href="{% url 'Admin:verifyshop' i.id %}">Approve</a>
+                    <a href="{% url 'Admin:unverifyshop' i.id %}">Reject</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h1>Accepted Shop</h1>
+        <table width="100%" border="1" align="center">
+            <tr>
+                <td>S1 No</td>
+                <td>Name</td>
+                <td>Email</td>
+                <td>Contact</td>
+                <td>Address</td>
+                <td>District</td>
+                <td>Place</td>
+                <td>Logo</td>
+                <td>Proof</td>
+                <td>Action</td>
+            </tr>
+            {% for i in shopa %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.shop_name}}</td>
+                <td>{{i.shop_email}}</td>
+                <td>{{i.shop_contact}}</td>
+                <td>{{i.shop_address}}</td>
+                <td>{{i.place.district.district_name}}</td>
+                <td>{{i.place.place_name}}</td>
+                <td><img src="{{i.shop_logo.url}}" width="100" height="100"></td>
+                <td><img src="{{i.shop_proof.url}}" width="100" height="100"></td>
+                <td><a href="{% url 'Admin:unverifyshop' i.id %}">Reject</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h1>Rejected Shop</h1>
+        <table width="100%" border="1" align="center">
+            <tr>
+                <td>S1 No</td>
+                <td>Name</td>
+                <td>Email</td>
+                <td>Contact</td>
+                <td>Address</td>
+                <td>District</td>
+                <td>Place</td>
+                <td>Logo</td>
+                <td>Proof</td>
+                <td>Action</td>
+            </tr>
+            {% for i in shopr %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.shop_name}}</td>
+                <td>{{i.shop_email}}</td>
+                <td>{{i.shop_contact}}</td>
+                <td>{{i.shop_address}}</td>
+                <td>{{i.place.district.district_name}}</td>
+                <td>{{i.place.place_name}}</td>
+                <td><img src="{{i.shop_logo.url}}" width="100" height="100"></td>
+                <td><img src="{{i.shop_proof.url}}" width="100" height="100"></td>
+                <td><a href="{% url 'Admin:verifyshop' i.id %}">Approve</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </form>
+</body>
+</html>
+
+{% endblock content %}
